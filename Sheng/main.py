@@ -14,13 +14,12 @@ def main():
     """
 
     # start at loading the dataset
-    raw_data = h1bdata_loading()
-    print "dataset loaded successfully >>>"
-    print ">>>",
+    data = h1bdata_loading()
+   
 
     # Then clean the data
-    h1b_data = Clean_df(raw_data)
-    print "data cleaned >>>"
+    #h1b_data = Clean_df(raw_data)
+    #print "data cleaned >>>"
 
     # search for interested jobs
     print ("================================ H1b Visa Approve Rate Exploring ================================")
@@ -36,11 +35,11 @@ def main():
 		try:
 			key = option_input()
 			if key == 'a':
-				overview(h1b_data)
+				overview(data)
 			if key == 'b':
-				
+				location(h1b_data)
 			if key == 'c':
-				df.plot_wage_line_chart()
+				industry(h1b_data)
 			if key == 'd':
 				Flag = False
 		except wrong_option_exception:

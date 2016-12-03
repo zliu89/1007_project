@@ -1,10 +1,25 @@
+"""
+This is the h1b_data module of the project
+calc_application_pool: calculate application pool to meet functions in different levels
+calc_approve_rate: calculte approve rate to meet functions in different levels
+calc_average_wage: calculate average wage to meet functions in different levels
+All calculations are for plot line charts and maps
+
+Created on 2016/12/01
+Version: 1.0
+@author: Sheng Liu
+ShengLiu Copyright 2016-2017
+
+"""
 import sys
 import pandas as pd
 import h1b_draw
+import numpy as np
 class h1b_data:
-	def __init__(self,year):
-		self.data = pd.read_excel('H-1B_FY2016.xlsx')
-		self.states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', \
+    def __init__(self,data):
+        
+        self.data = data
+        self.states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', \
          'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', \
          'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', \
          'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT',\
@@ -12,126 +27,79 @@ class h1b_data:
 
 
 
-
-	def calc_approve_rate(self,level):
-		if level == 'states':
-			APPROVE_RATE_DIC = {}
-			APPRIVE_RATE_LIST = []
-			df = self.data
-			for state in self.states:
-		    	df_in_state = df[df['EMPLOYER_STATE']== state]
-	    		is_approve = (df_in_state['CASE_STATUS']=='CERTIFIED')*1
-	    		APPROVE_RATE_DIC[state] = sum(is_approve)/len(df_in_state)
-	    		APPRIVE_RATE_LIST.append(sum(is_approve)/len(df_in_state)*100)
-				state_data = pd.DataFrame.from_dict(APPROVE_RATE_DIC,orient='index',dtype=None)
-				state_data = state_data.rename(columns = {0:'approve_percentage'})
-				state_data.to_csv(path_or_buf = '../mystuff/HW1007/2016_approve_percentage.csv')
-			return state_data
-		elif level == 'national':
-
-
-		elif level == 'city':
-
-		else:
-		 raise Wrong_Level_Input_Exception
+    def calc_application_pool(self,level,year):
+        application_pool = []
+        if level == 'Overview':
+            for year in range(2010,2017):
+                application_pool.append(len(self.data[year]))
+            return application_pool
+        elif level == 'Country':
+            data = self.data
+            for state in self.states:
+                data_year_in_state = data[year][data[year]['EMPLOYER_STATE'] == state]
+                application_pool.append(len(data_year_in_state))
+            return application_pool
+        elif level == 'State':
+            data = self.data
+            for YEAR in range(2010,2017):
+                data_year_in_state = data[YEAR][data[YEAR]['EMPLOYER_STATE'] == year]
+                application_pool.append(len(data_year_in_state))
+            return application_pool
 
 
 
+    def calc_approve_rate(self,level,year):
+        data = self.data
+        if level == 'Overview':
+            APPROVE_RATE_LIST = []
+            for year in range(2010,2017):
+                is_approve = data[year]['STATUS_APPROVE']
+                rate = sum(is_approve)/len(data[year])*100
+                APPROVE_RATE_LIST.append(rate)
+            return APPROVE_RATE_LIST
+        elif level == 'Country':
+            states = self.states
+            APPROVE_RATE_LIST_Country = []
+            for state in states:
+                data_year_in_state = data[year][data[year]['EMPLOYER_STATE'] == state]
+                is_approve =data_year_in_state['STATUS_APPROVE']
+                rate = sum(is_approve)/len(data[year])*100
+                
+                APPROVE_RATE_LIST_Country.append(rate)
+            return APPROVE_RATE_LIST_Country
+        elif level == 'State':
+            APPROVE_RATE_LIST_State = []
+            for YEAR in range(2010,2017):
+                data_year_in_state = data[YEAR][data[YEAR]['EMPLOYER_STATE'] == year]
+                is_approve =data_year_in_state['STATUS_APPROVE']
+                rate = sum(is_approve)/len(data[YEAR])*100
+                APPROVE_RATE_LIST_State.append(rate)
+            return APPROVE_RATE_LIST_State
 
 
+    def calc_average_wage(self,level,year):
+        data = self.data
+        
+        if level == 'Overview':
+            AVERAGE_WAGE_LIST = []
+            for year in range(2010,2017):
+                AVERAGE_WAGE_LIST.append(np.mean(data['PREVAILING_WAGE']))
+            return AVERAGE_WAGE_LIST
+        
+        elif level == 'Country':
+            AVERAGE_WAGE_LIST_Country = []
+            for state in self.states:
+                data_year_in_state = data[year][data[year]['EMPLOYER_STATE'] == state]
+                AVERAGE_WAGE_LIST_Country.append(np.mean(data_year_in_state['PREVAILING_WAGE']))
+            return AVERAGE_WAGE_LIST_Country
 
-	def calc_applicaton_pull(self,level):
+        elif level == 'State':
+            AVERAGE_WAGE_LIST_State = []
+            for YEAR in range(2010,2017):
+                data_year_in_state = data[YEAR][data[YEAR]['EMPLOYER_STATE'] == year]
+                AVERAGE_WAGE_LIST_State.append(np.mean(data_year_in_state['PREVAILING_WAGE']))
+            return AVERAGE_WAGE_LIST_State
 
-	def calc_applicaton_pull_state(self,state_name):
-
-
-	def calc_approve_rate_state(self,state_name):
-
-	def calc_average_wage_state(self,state_name):
-
-
-
-
-
-	def calc_average_wage(self,level):
-
-
-	def plot_application_line_chart(self,state_name):
-		if state_name == None:
-			try:
-				data = self.calc_applicaton_pull('national')
-				h1b_draw.plot_line_chart(data)
-			except Wrong_Level_Input_Exception:
-				print ('Invalid Level')
-		else:
-			data = self.calc_applicaton_pull_state(state_name)
-			h1b_draw.plot_line_chart(data)
-
-
-	def plot_approve_line_chart(self,state_name):
-		if state_name == None:
-			data = self.calc_approve_rate('national')
-			h1b_draw.plot_line_chart(data)
-		else:
-			data = self.calc_approve_rate_state(state_name)
-			h1b_draw.plot_line_chart(data)	
-
-
-	def plot_wage_line_cahrt(self,state_name):
-		if state_name == None
-			data = self.calc_average_wage('national')
-			h1b_draw.plot_line_chart(data)
-		else:
-			data = self.calc_average_wage_state(state_name)
-			h1b_draw.plot_line_chart(data)
-
-
-	def plot_application_map(self,level):
-		if level == 'national':
-			data = self.calc_national_applicaton_pull()
-			h1b_draw.plot
-
-	def plot_approve_map(self,level):
-
-
-	def plot_wage_map(self,level):
-
-
-
-	def top_rank(self,top,kind,type):
-	"""
-	Input: 
-		top: 10 or 20
-		kind: company or occupation or city
-		type: approval rate or average wage or application pull
-
-	Return:
-		Required rank (data frame)
-    """
-    def identify_company_name(self,company_name):
-    """
-	Input:
-		company_name
-
-	Return:
-		identified company_name(string) based on the data base
-
-	Exception:
-		Invalid_Company_Name
-    """
-    
-    def search_company(self,company_name):
-
-	"""
-	Input: company_name
-
-	Output:
-	campany_name
-	Group name
-	Sub-group list
-	application pull from 2009-2016
-	approval rate from 2009-2016
-	average rate from 2009-2016
 
 
 
