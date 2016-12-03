@@ -8,7 +8,7 @@ import pandas as pd
 import sys
 from exception_list import *
 
-def safely_input():
+def h1bdata_loading():
     """
     used at the start of main function. safely input the data set from the external csv file.
     Raise exception when input failed
@@ -18,20 +18,28 @@ def safely_input():
     a verified DataFrame
 
     """
-    print "Welcome to Our H1b Analysis System! \n"
-    path = "2016_Data.csv"
-    while Ture:
-        try:
-            raw_data = get_input(path)
-            break
-        except IOError:
-            path = raw_input( "Can not locate the dataset file, type in a valid path or type 'quit' to exit \n")
-        except Wrong_dataset_exception:
-            path = raw_input( "Load a wrong dataset, please type in a valid path or type 'quit' to exit \n")
-        if path == 'quit':
-            sys.exit()
-    return raw_data
+    print ("Welcome to Our H1b Analysis System! \n")
+    print ("loading data.......... \n")
+    data = {}
+    for year in range(2010,2017):
+        data[year]= pd.read_csv('DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
+    print ("dataset loaded successfully >>>")
+    print (">>>"),
+    return data
+def option_input()
+"""
+get the option selected by user, and verify it.
+return a verified option
 
+"""
+    key = input("Please select one: ")
+    options = list('abcd')
+    if not(key in options):
+        raise wrong_option_exception
+    if key == 'quit':
+        print ("You have quited the system.")
+        sys.exit()
+    return key
 
 def get_input(path):
     """
