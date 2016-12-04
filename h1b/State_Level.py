@@ -1,6 +1,19 @@
+"""
+This is module which designed for interactions in state level
+Customs may input the abbreviaton of the state name they interested in
+They will get line charts of application pools, approve rate, average Wage
+and (.    ) in that state
+
+Created on 2016/12/01
+Version: 1.0
+@author: liusheng, Yuwei Tu
+ShengLiu Copyright 2016-2017
+"""
+
 import sys
 from h1b_data import *
-def state_level (df):
+from h1b_draw import *
+def state_level(states,h1b_data):
 	#df = h1b_data(df)
 
 	print ("================================ H1b Visa Approve Rate Exploring =================================")
@@ -10,17 +23,31 @@ def state_level (df):
 	print ("==================================================================================================")
 
 	state_name = input('Please input here: ') 
-	while True
-		if state_name in df.states:
-			df.plot_application_line_chart(state_name)
-			df.plot_approve_line_chart(state_name)
-			df.plot_wage_line_cahrt(state_name)
-			rank = df.top10_rank()
-			#How do we show the rank if the rank is acturally a data frame
-		elif state_name == 'return':
-			break
-		else:
-			raise Exception
+	while True:
+		try:
+			if state_name in states:
+				application_pool = h1b_data.calc_application_pool('State',state_name)
+				APPROVE_RATE = h1b_data.calc_approve_rate('State', state_name)
+				AVERAGE_WAGE = h1b_data.calc_average_wage('State', state_name)
+				plot_line_chart(application_pool, 'Application Pool Size','State Level Application Pool')
+				plot_line_chart(APPROVE_RATE, 'Approve Rate (%)','State Level Approve Rate')
+				plot_line_chart(AVERAGE_WAGE, 'Average Wage','State Level Average Wage')
+				break
+				#How do we show the rank if the rank is acturally a data frame
+			elif state_name == 'return':
+				break
+			else:
+				raise Exception
+		except KeyboardInterrupt:
+			sys.exit(1)
+
+if __name__ == '__main__':
+	data = {}
+	for year in range(2010,2017):
+		data[year]= pd.read_csv('DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
+	states = h1b_data(data).states
+	state_level(states,h1b_data(data))
+
 
 
 

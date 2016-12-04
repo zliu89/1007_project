@@ -1,67 +1,66 @@
-import sys
-import pandas as pd
+"""
+This is module contains two main methods of plotting
+plot_cloropleth_map was designed for plot cloropleth maps with given data
+plot_line_chart was designed for plot line charts with given data
+All plots based on data from module h1bdata
+
+Created on 2016/12/01
+Version: 1.0
+@author: Sheng Liu
+ShengLiu Copyright 2016-2017
+
+"""
+
+
 from chorogrid import Colorbin, Chorogrid
-from h1b_data import h1b_data
-class h1b_draw:
-	def __init__(self,map_type,year,state):
-        '''
-        Constructor
-        '''
-        try:
-        	self.year = year
-            if map_type in [1,2,3]:
-                
-         		self.mycolors = ['#b35806', '#f1a340', '#fee0b6', '#d8daeb', '#998ec3', '#542788']
-         		state_data = h1b_data.calc_states_approve_rate(year)
-         		self.mybin = Colorbin(state_data['approve_percentage'], mycolors, proportional=True, decimals=None)
-         		self.state_info = pd.read_csv('chorogrid/databases/usa_states.csv')
-         		self.map_type = map_type
-         		
-            elif state != '':
-            	self.data = h1b_data.calc_city_approve_rate(year,state)
-            	self.position = arange(5)+.5  
-            	self.val = self.data.
-        except Exception:
-            raise              
-        
+import matplotlib.pyplot as plt
+import datetime as dt
+import pandas as pd
+#import cairosvg
 
 
-    
+states = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', \
+         'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', \
+         'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', \
+         'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT',\
+         'VA', 'WA', 'WV', 'WI', 'WY']
+def plot_cloropleth_map(ls,interest,leg,year):
 
-    def plot_cloropleth_map(self):
-    	#self.mybin.set_decimals(1)
-		#self.mybin.recalc(fenceposts=True)
-		#self.mybin.calc_complements(0.5, '#e0e0e0', '#101010')
-		if self.map_type == 1:
-			colors_by_state = self.mybin.colors_out
-			font_colors_by_state = self.mybin.complements
-			legend_colors = self.mybin.colors_in
-			legend_labels = self.mybin.labels
-			cg = Chorogrid('chorogrid/databases/usa_states.csv', states, colors_by_state)
-			cg.set_title('% 2016 H1b Approve Rate', font_dict={'font-size': 19})
-			cg.set_legend(legend_colors, legend_labels, title='% of population')
-			cg.draw_squares(spacing_dict={'margin_right': 150}) # otherwise legend will be cut off
-	    # another strategy would be to pass a legend_offset to spacing_dict
-			cg.done(show=True)
-		elif self.map_type == 2:
-			cg = Chorogrid('chorogrid/databases/usa_states.csv', states, colors_by_state)
-			cg.draw_map(spacing_dict={'legend_offset': [-150,-25]})
-			cg.done(show=True)
-		else:
-			cg.draw_hex(spacing_dict={'margin_right': 150}, font_colors=font_colors_by_state)
-			cg.done(show=True)
+	mycolors = ['#b35806', '#f1a340', '#fee0b6', '#d8daeb', '#998ec3', '#542788']
+	mybin = Colorbin(ls, mycolors, proportional=True, decimals=None)
+	state_info = pd.read_csv('chorogrid/databases/usa_states.csv')
+	colors_by_state = mybin.colors_out
+	font_colors_by_state = mybin.complements
+	legend_colors = mybin.colors_in
+	legend_labels = mybin.labels
+	
+	cg = Chorogrid('chorogrid/databases/usa_states.csv', states, colors_by_state)
+	cg.set_title(str(year)+' H1b '+str(interest), font_dict={'font-size': 19})
+	cg.set_legend(legend_colors, legend_labels, title=leg)
+	#cg = Chorogrid('chorogrid/databases/usa_states.csv', states, colors_by_state)
+	cg.draw_map(spacing_dict={'legend_offset': [-150,-25]})
+	#cg.draw_squares(spacing_dict={'margin_right': 150}) 
+	cg.done(show=False, save_filename = str(year)+' H1b '+str(interest))
+	#cairosvg.svg2pdf(url=str(year)+' H1b '+str(interest)+'.svg', write_to=str(year)+'H1b '+str(interest)+'.pdf')
+
+	
+
+	
 
 
+def plot_line_chart(ls,y_label,title):
+    year = ['2010','2011','2012','2013','2014','2015','2016']
+    x = [dt.datetime.strptime(d,'%Y').date() for d in year]
+    plt.figure()
+    plt.plot(x,ls)
+    plt.grid(True)
+    plt.xlabel('Year')
+    plt.ylabel(y_label)
+    plt.title(title)
+    plt.show()
 
-	def plot_bar_chart(self):
-		val = self.val
-		barh(self.position,val, align='center',height=0.1)    # notice the 'height' argument
-		yticks(pos, ('Tom', 'Dick', 'Harry', 'Slim', 'Jim'))
-		xlabel('Approve Rate')
-		title('Approve Rate of Top 20 Cities in'+str(state))
-		grid(True)
-		show()
 
+	
 
 
 
