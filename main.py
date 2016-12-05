@@ -22,6 +22,8 @@ def main():
     h1b_data = Clean_df(raw_data)
     print "data cleaned >>>"
 
+    merged_data = pd.concat([h1b_data[year] for year in range(2010,2017)], ignore_index= True)
+
     # search for interested jobs
     print ("================================ H1b Visa Approve Rate Exploring ================================")
 	print (""
@@ -38,11 +40,11 @@ def main():
 			if key == 'a':
 				overview(h1b_data)
 			if key == 'b':
-				
+				location(h1b_data)
 			if key == 'c':
-				df.plot_wage_line_chart()
+				industry_exploring(merged_data)
 			if key == 'd':
-				Flag = False
+				company_exploring(merged_data)
 		except wrong_option_exception:
 			print ("Invalid option, please reselect.")
 
