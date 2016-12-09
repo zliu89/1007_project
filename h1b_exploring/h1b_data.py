@@ -15,6 +15,7 @@ import sys
 import pandas as pd
 import h1b_draw
 import numpy as np
+
 class h1b_data:
     def __init__(self,data):
         
@@ -26,8 +27,7 @@ class h1b_data:
          'VA', 'WA', 'WV', 'WI', 'WY']
 
 
-
-    def calc_application_pool(self,level,year):
+    def calc_application_pool(self,level,year = 2012):
         application_pool = []
         if level == 'Overview':
             for year in range(2010,2017):
@@ -47,8 +47,7 @@ class h1b_data:
             return application_pool
 
 
-
-    def calc_approve_rate(self,level,year):
+    def calc_approve_rate(self,level,year = 2012):
         data = self.data
         if level == 'Overview':
             APPROVE_RATE_LIST = []
@@ -63,7 +62,7 @@ class h1b_data:
             for state in states:
                 data_year_in_state = data[year][data[year]['EMPLOYER_STATE'] == state]
                 is_approve =data_year_in_state['STATUS_APPROVE']
-                rate = sum(is_approve)/len(data[year])*100
+                rate = sum(is_approve)/len(data_year_in_state)*100
                 
                 APPROVE_RATE_LIST_Country.append(rate)
             return APPROVE_RATE_LIST_Country
@@ -72,18 +71,18 @@ class h1b_data:
             for YEAR in range(2010,2017):
                 data_year_in_state = data[YEAR][data[YEAR]['EMPLOYER_STATE'] == year]
                 is_approve =data_year_in_state['STATUS_APPROVE']
-                rate = sum(is_approve)/len(data[YEAR])*100
+                rate = sum(is_approve)/len(data_year_in_state)*100
                 APPROVE_RATE_LIST_State.append(rate)
             return APPROVE_RATE_LIST_State
 
 
-    def calc_average_wage(self,level,year):
+    def calc_average_wage(self,level,year=2012):
         data = self.data
         
         if level == 'Overview':
             AVERAGE_WAGE_LIST = []
             for year in range(2010,2017):
-                AVERAGE_WAGE_LIST.append(np.mean(data['PREVAILING_WAGE']))
+                AVERAGE_WAGE_LIST.append(np.mean(data[year]['PREVAILING_WAGE']))
             return AVERAGE_WAGE_LIST
         
         elif level == 'Country':
@@ -99,12 +98,4 @@ class h1b_data:
                 data_year_in_state = data[YEAR][data[YEAR]['EMPLOYER_STATE'] == year]
                 AVERAGE_WAGE_LIST_State.append(np.mean(data_year_in_state['PREVAILING_WAGE']))
             return AVERAGE_WAGE_LIST_State
-
-
-
-
-
-
-
-
 

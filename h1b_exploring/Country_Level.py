@@ -8,17 +8,18 @@ ShengLiu Copyright 2016-2017
 
 """
 import sys
-from Overview import option_input
+from All_about_input import option_input
 from h1b_draw import *
 from h1b_data import *
+from exception_list import wrong_option_exception
 
 
 def national_level (h1b_data):
-	#df = h1b_data(df)
+	
 	print ("  ")
 	print ("================================ H1b Visa Approve Rate Exploring =================================")
 	print ("")
-	print ("          You are now at National Level, please choose ONE topic you interested in                ")
+	print ("          You are now at National Level, please choose ONE indicator you interested in                ")
 	print ("                              <a>  : Application Pool                                             ")
 	print ("                              <b>  : Approve Rate                                                 ")
 	print ("                              <c>  : Average Wage                                                 ")
@@ -66,7 +67,7 @@ def national_level (h1b_data):
 			if key == 'r':
 				Flag = False
 		except wrong_option_exception:
-			print ("Invalid option, please reselect.")
+			print ("Invalid option, please reselect an indicator you interested in.")
 
 if __name__ == '__main__':
 	data = {}

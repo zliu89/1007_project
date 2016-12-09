@@ -4,11 +4,14 @@ Created on Nov 27, 2016
 @author: Yovela
 '''
 import sys
-from all_about_input import *
-from class_collections_ranking import *
-from popular_company import *
-from customized_company import *
+import pandas as pd
 
+from All_about_input import option_input
+from exception_list import wrong_option_exception
+
+from class_collections_ranking import company_level
+from popular_company import popular_company
+from customized_company import customized_company
 
 
 # company_exploring(merged_data)
@@ -16,26 +19,39 @@ from customized_company import *
 def company_exploring(data):
     
     company_data = company_level(data)
-
-
-    print ("================================ H1b Visa Approve Rate Exploring ================================")
-    print ("")
-    print ("                             Please choose ONE level you interested in                           ")
-    print ("                              <a>  : Popular Industry                                            ")
-    print ("                              <b>  : Customized Job Inquiry                                      ")
-    print ("                              <r>  : Go back to ALL_about_Input menu                                        ")  
-    print ("")
-    print ("=================================================================================================")
+    
     Flag = True
     while Flag:
         try:
+            
+
+            print ("================================ H1b Visa Approve Rate Exploring ================================")
+            print ("")
+            print ("                             Please choose ONE level you interested in                           ")
+            print ("                              <a>  : Popular Company                                             ")
+            print ("                              <b>  : Customized Company Inquiry                                  ")
+            print ("                              <r>  : Go back to the main menu                                    ")  
+            print ("")
+            print ("=================================================================================================")
+    
+
+
             key = option_input()
             if key == 'a':
-                popular_company(data)
+                popular_company(company_data)
             if key == 'b':
-                customized_company(data)
+                customized_company(company_data)
             if key == 'r':
                 Flag = False
         
         except wrong_option_exception:
             print ("Invalid option, please reselect.")
+            
+            
+            
+if __name__ == '__main__':
+    data = {}
+    for year in range(2010,2017):
+        data[year]= pd.read_csv('/Users/yuweitu/Documents/Programming/DSGA1007_Project/DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
+    merged_data = pd.concat([data[year] for year in range(2010,2017)], ignore_index= True)
+    company_exploring(merged_data)

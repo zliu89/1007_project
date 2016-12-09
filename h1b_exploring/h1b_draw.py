@@ -45,9 +45,6 @@ def plot_cloropleth_map(ls,interest,leg,year):
 
 	
 
-	
-
-
 def plot_line_chart(ls,y_label,title):
     year = ['2010','2011','2012','2013','2014','2015','2016']
     x = [dt.datetime.strptime(d,'%Y').date() for d in year]
@@ -58,6 +55,7 @@ def plot_line_chart(ls,y_label,title):
     plt.ylabel(y_label)
     plt.title(title)
     plt.show()
+    return 
 
 
 	

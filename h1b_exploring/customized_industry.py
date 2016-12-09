@@ -5,75 +5,105 @@ Created on Nov 27, 2016
 '''
 
 import sys
-from all_about_input import *
-from class_collections_ranking import *
+import pandas as pd
+
+from class_collections_ranking import industry_level
+from exception_list import invalid_industry_name, wrong_int_exception
+
 
 '''
 industry_data = industry_level(merged_data)
 customized_industry(industry_data)
 
 '''
-data = {}
-for year in range(2010,2013):
-    data[year]= pd.read_csv('DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
-merged_data = pd.concat([data[year] for year in range(2010,2013)], ignore_index= True)
+def identify_user_industry_list(user_input, industry_list):
+    industry_keyword = user_input.capitalize()
+    user_industry_list = []
+    k = 0
+    for i in range(len(industry_list)):
+        if industry_keyword in industry_list[i]:
+            user_industry_list.append(industry_list[i])
+            print(k,industry_list[i])
+            k += 1
+    return user_industry_list
+        
+      
+def confirm_user_industry(user_industry_list):
+    try:
+      
+        if len(user_industry_list) == 1:
+            user_industry = user_industry_list[0]
+           
+        if len(user_industry_list) > 1:
+            user_choice = input("please choose an industry you interested in, enter the number before it\n")
+            try:
+                user_industry = user_industry_list[int(user_choice)]
+            except:
+                raise ValueError
+            
+    except ValueError:
+        print('please follow input instructions ')
+    except KeyboardInterrupt:
+        sys.exit(1)
+            
+    return user_industry
 
-def customized_industry(df):
+def search_industry(industry_name, industry_data):
     
-    industry_list = df.newdf.index
+        print("The total application pool for " + industry_name + " is: ")
+        print(industry_data.industry_application_pool(industry_data, industry_name))
+        print("The total number of approved case for " + industry_name + " is: ")
+        print(industry_data.industry_approved_case(industry_data, industry_name))
+        print("The average approval rate for " + industry_name + " is: ")
+        print(industry_data.industry_approval_rate(industry_data, industry_name))
+        print("The average wage for " + industry_name + " is: ")
+        print(industry_data.industry_average_wage(industry_data, industry_name))
+
+        return
     
+def job_title(industry_name, df):
+    job_title = df[df['descrpt'] == industry_name]['SOC_NAME'].drop_duplicates() 
+    df = pd.DataFrame(job_title).dropna()
+    print("All related job titles are listed below:")
+    print(df.to_string())
+    return 
+
+def customized_industry(industry_data, merged_data):
+    
+    industry_list = industry_data.newdf.index.unique()
+
     while True:
         try:
             print ("================================ H1b Visa Approve Rate Exploring ================================")
-            print ("")
-            user_input = input ( "Please Input Your Interested Industry Name, i.e: computer, business, engineering"   )
+            print ("") 
+            print ("        Please Input Your Interested Industry Name, i.e: computer, business, engineering         ")
+            print ("                   You may input return to go back to Industry menu                              ")
             print ("=================================================================================================")
-            industry_name = identify_industry(user_input)
-            search_industry(industry_name)
-# TODO: print the whole industry list           
-        except Invalid_Industry_Name:
-            print ("Invalid industry name, please input again")
+            
+            user_input = input('Please input here: ') 
+            if user_input == 'return':
+                break
+            if user_input == 'quit':
+                sys.exit(1)
+            
+            try:
+                user_industry_list = identify_user_industry_list(user_input, industry_list)
+                if len(user_industry_list) ==0:
+                    raise invalid_industry_name
+                else:
+                    user_industry = confirm_user_industry(user_industry_list)
+                    user_input = input(user_industry+ ": is it the industry you interested in?\n")
+                    if user_input == 'yes':
+                        search_industry(user_industry, industry_data)
+                        job_title(user_industry, merged_data)
+                    else: 
+                        raise invalid_industry_name
+                        
+            except invalid_industry_name:
+                print ("Invalid industry name, please input again")
 
-    def search_industry(industry_name):
-        job_titles = merged_data[merged_data['descrpt'] == industry_name]['SOC_NAME'].drop_duplicates()
-        print("The total application pool for " + industry_name + " is: \n")
-        print(industry_level.industry_application_pool(df, industry_name))
-        print("The total number of approved case for " + industry_name + " is: \n")
-        print(industry_level.industry_approved_case(df, industry_name))
-        print("The average approval rate for " + industry_name + " is: \n")
-        print(industry_level.industry_approval_rate(df, industry_name))
-        print("The average wage for " + industry_name + " is: \n")
-        print(industry_level.industry_average_wage(df, industry_name))
-        print("All related job titles are listed below:")
-        print(job_titles.values)
         
-        return
-        
-        
-    def identify_industry(user_input):
-        
-        industry_keyword = user_input.capitalize()
-        user_industry_list = []
-        for i in range(len(industry_list)):
-            if industry_keyword in industry_list[i]:
-                user_industry_list.append(industry_list[i])
-                print(i,industry_list[i])
-           
-        if len(user_industry_list) == 1:
-            user_input = print("is it the industry you interested in? please enter yes or no")
-            if user_input == "yes":
-                user_industry = user_industry_list[0]
-            else:
-                raise Invalid_Industry_Name
-            
-        if len(user_industry_list) > 1:
-            user_choice = print("please choose an industry you interested in, enter the number before it")
-            if int(user_choice) >= 0 and int(user_choice)<= len(user_industry_list):
-                user_industry = user_industry_list[int(user_choice)]
-            else:
-                raise Invalid_Industry_Name
-            
-        if len(user_industry_list) == 0:
-            raise Invalid_Industry_Name
-            
-        return user_industry
+        except invalid_industry_name:
+            print ("Invalid industry name, please input again")
+        except KeyboardInterrupt:
+            sys.exit(1)

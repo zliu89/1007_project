@@ -6,6 +6,7 @@ Created on Nov 27, 2016
 import sys
 import pandas as pd
 import matplotlib.pyplot as plt
+from IPython.display import display
 
 class state_level:
     
@@ -97,10 +98,10 @@ class industry_level:
 
     def industry(self, dataset):
     # calculate required statistics
-        application_pool = (dataset.groupby("SOC_NAME").count())["STATUS_APPROVE"]
-        approved_case = (dataset.groupby("SOC_NAME").sum())["STATUS_APPROVE"]
-        approval_rate = (dataset.groupby("SOC_NAME").mean())["STATUS_APPROVE"]
-        average_wage = (dataset.groupby("SOC_NAME").mean())["PREVAILING_WAGE"]
+        application_pool = (dataset.groupby("descrpt").count())["STATUS_APPROVE"]
+        approved_case = (dataset.groupby("descrpt").sum())["STATUS_APPROVE"]
+        approval_rate = (dataset.groupby("descrpt").mean())["STATUS_APPROVE"]
+        average_wage = (dataset.groupby("descrpt").mean())["PREVAILING_WAGE"]
     
     # create a new DataFrame and rename indexes
         industry_data = pd.concat([application_pool, approved_case, approval_rate,average_wage], axis =1)
@@ -111,20 +112,23 @@ class industry_level:
     
         return industry_data
 
-    def industry_application_pool(self, inductry_level, soc_name):
+    def industry_application_pool(self, industry_level, soc_name):
         return industry_level.newdf.ix[soc_name, "application_pool"]
 
-    def industry_approved_case(self, inductry_level, soc_name):
+    def industry_approved_case(self, industry_level, soc_name):
         return industry_level.newdf.ix[soc_name, "approved_case"]
     
-    def industry_approval_rate(self, inductry_level, soc_name):
+    def industry_approval_rate(self, industry_level, soc_name):
         return industry_level.newdf.ix[soc_name, "approval_rate"]
     
-    def industry_average_wage(self, inductry_level, soc_name):
+    def industry_average_wage(self, industry_level, soc_name):
         return industry_level.newdf.ix[soc_name, "average_wage"]
     
-    def occupation_rank(self, inductry_level, n, indicator): 
+    def occupation_rank(self, industry_level, n, indicator): 
         occupation_rank = industry_level.newdf.sort_values(by = indicator, ascending = False).ix[:n,indicator]
+        df = industry_level.newdf.ix[occupation_rank.index, indicator]
+        print('Top ' + str(n) + ' ' +indicator + ' occupation groups\n')
+        print(df.to_string())
         return occupation_rank
     
 '''
