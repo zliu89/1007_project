@@ -10,21 +10,22 @@ Version: 1.0
 ShengLiu Copyright 2016-2017
 """
 
+
 import sys
 from h1b_data import *
 from h1b_draw import *
+
 def state_level(states,h1b_data):
-	#df = h1b_data(df)
-
-	print ("================================ H1b Visa Approve Rate Exploring =================================")
-	print ("")
-	print ("          Please Input a state ABBREVIATION you interested in (NY, CA, MI, etc.)                  ")
-	print ("		             You may input return to go back to Location menu                             ")			
-	print ("==================================================================================================")
-
-	state_name = input('Please input here: ') 
+	
 	while True:
 		try:
+			print ("================================ H1b Visa Approve Rate Exploring =================================")
+			print ("")
+			print ("          Please Input a state ABBREVIATION you interested in (NY, CA, MI, etc.)                  ")
+			print ("		             You may input return to go back to Location menu                             ")			
+			print ("==================================================================================================")
+
+			state_name = input('Please input here: ') 
 			if state_name in states:
 				application_pool = h1b_data.calc_application_pool('State',state_name)
 				APPROVE_RATE = h1b_data.calc_approve_rate('State', state_name)
@@ -33,11 +34,15 @@ def state_level(states,h1b_data):
 				plot_line_chart(APPROVE_RATE, 'Approve Rate (%)','State Level Approve Rate')
 				plot_line_chart(AVERAGE_WAGE, 'Average Wage','State Level Average Wage')
 				break
-				#How do we show the rank if the rank is acturally a data frame
+				#How do we show the rank if the rank is actually a data frame
+			elif state_name == 'quit':
+				sys.exit(1)
 			elif state_name == 'return':
 				break
 			else:
 				raise Exception
+		
+		
 		except KeyboardInterrupt:
 			sys.exit(1)
 

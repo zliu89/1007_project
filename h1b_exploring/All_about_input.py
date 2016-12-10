@@ -26,19 +26,20 @@ def h1bdata_loading():
     print ("dataset loaded successfully >>>")
     print (">>>"),
     return data
-def option_input()
-"""
-get the option selected by user, and verify it.
-return a verified option
 
-"""
+
+
+def option_input():
+
     key = input("Please select one: ")
-    options = list('abcd')
-    if not(key in options):
-        raise wrong_option_exception
+    options = list('abcr')
+    
     if key == 'quit':
         print ("You have quited the system.")
         sys.exit()
+    
+    if not(key in options):
+        raise wrong_option_exception
     return key
 
 def get_input(path):
@@ -53,12 +54,12 @@ def get_input(path):
     checked dataframe
     """
 
-    data = pd.read_csv(path)
+    df = pd.read_csv(path)
     attributes = [u'YEAR', u'CASE_NUMBER', u'STATUS', u'VISA_CLASS', u'EMPLOYER_NAME', u'EMPLOYER_CITY',
              u'EMPLOYER_STATE', u'SOC_CODE', u'SOC_NAME', u'JOB_TITLE', u'PREVAILING_WAGE',
              u'FULL_TIME']
 
     for col in df.columns:
         if not(col in attributes):
-            raise Wrong_dataset_exception
+            raise wrong_dataset_exception
     return df

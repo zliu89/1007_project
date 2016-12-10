@@ -7,12 +7,9 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 from class_collections_ranking import *
+from matplotlib.backends.backend_pdf import PdfPages
 
-'''
-data = {}
-for year in range(2010,2017):
-    data[year]= pd.read_csv('Database/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
-'''   
+
 
 def city_exploring(data):
     
@@ -22,25 +19,46 @@ def city_exploring(data):
     city_rank = city_data.newdf.sort_values(by = "application_pool", ascending = False).ix[:20]
     city_rank["unapproved_case"] = city_rank["application_pool"]-city_rank["approved_case"]
 
+    df = city_rank.ix[:,["application_pool", "approval_rate", "average_wage"]]
     print("The top 20 cities with largest application pools from 2010 to 2016 is ranked below: \n")
-    print(city_rank.ix[:,0:1])
+    print(df.to_string())
+    
+    with PdfPages('city_exploring.pdf') as pdf:
+        
+        plt.figure(figsize = (30,20))
+        city_rank_by_application_pool = city_rank["approved_case"].sort_values(inplace=False, ascending=True)
+        ax1 = city_rank_by_application_pool.plot(kind = "barh", alpha = 0.7, color = ["skyblue", "pink","green"], 
+                                       figsize = (20,10))
+        ax1.set_title("Top 20 Largest Application Pool Cities",fontsize = "large")
+        pdf.savefig()
+        plt.close()
+        
+        plt.figure(figsize = (30,20))
+        ax2 = city_rank[["approved_case", "unapproved_case"]].plot(kind = "bar", alpha = 0.7, stacked = True,color = ["skyblue", "pink"], 
+                                       figsize = (20,10), title = "Approval Rate for Top 20 Largest Application Pool Cities")
+        ax3 = city_rank["approval_rate"].plot(kind = "line", secondary_y=True,  style = 'ko--' )
+        ax2.set_xticklabels(city_rank.index,rotation=45)
+        ax3.set_xticklabels(city_rank.index,rotation=45)
+        pdf.savefig()
+        plt.close()
+        
 
-    fig1 = plt.figure(figsize = (30,10))
-    ax1 = city_rank[["approved_case", "unapproved_case"]].plot(kind = "bar", alpha = 0.7, stacked = True,
-                                                    figsize=(15, 8),title = "Approval Rate for Top 20 Largest Application Pool Cities")
-    ax2 = city_rank["approval_rate"].plot(kind = "line", secondary_y=True, style = 'ko--' ,figsize=(15, 8))
-    ax1.set_xticklabels(city_rank.index,rotation=45)
-    ax2.set_xticklabels(city_rank.index,rotation=45)
+        plt.figure(figsize = (30,20))
+        ax4 = city_rank["average_wage"].plot(kind = "bar", ylim = [40000,120000], color = "skyblue",figsize = (20,10),
+                                             title = "Average Wage for Top 20 Largest Application Pool Cities" )
+        ax4.set_xticklabels(city_rank.index,rotation=45)
+        pdf.savefig()
+        plt.close()
+        
+        print("Further analysis has been saved in your local folder as PDF, please open your folder to check")
+        
 
-
-    fig2 = plt.figure(figsize = (30,10))
-    ax3 = city_rank["average_wage"].plot(kind = "bar", ylim = [40000,120000], figsize=(15, 8),
-                              title ="Average Wage for Top 20 Largest Application Pool Cities" )
-    ax3.set_xticklabels(city_rank.index,rotation=45)
-
-    print(fig1)
-    print(fig2)
     print("please return to the previous dictionary to explore other functions\n") 
 
     return
 
+if __name__ == '__main__':
+    data = {}
+    for year in range(2010,2017):
+        data[year]= pd.read_csv('/Users/yuweitu/Documents/Programming/DSGA1007_Project/DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
+    city_exploring(data)
