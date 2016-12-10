@@ -6,7 +6,7 @@ Created on Nov 27, 2016
 import sys
 import pandas as pd
 import matplotlib.pyplot as plt
-from class_collections_ranking import *
+from h1b_exploring.class_collections_ranking import *
 from matplotlib.backends.backend_pdf import PdfPages
 
 

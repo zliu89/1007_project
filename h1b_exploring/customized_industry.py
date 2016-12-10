@@ -7,8 +7,8 @@ Created on Nov 27, 2016
 import sys
 import pandas as pd
 
-from class_collections_ranking import industry_level
-from exception_list import invalid_industry_name, wrong_int_exception
+from h1b_exploring.class_collections_ranking import industry_level
+from h1b_exploring.exception_list import invalid_industry_name, wrong_int_exception
 
 
 '''

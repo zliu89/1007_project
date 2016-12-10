@@ -7,8 +7,8 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from class_collections_ranking import company_level
-from exception_list import invalid_company_name
+from h1b_exploring.class_collections_ranking import company_level
+from h1b_exploring.exception_list import invalid_company_name
 
 def identify_company_name(user_company, company_name_list):
     # generate a list contains all matching company names

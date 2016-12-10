@@ -3,12 +3,12 @@
 import sys
 import pandas as pd
 
-from All_about_input import option_input
-from exception_list import wrong_option_exception
+from h1b_exploring.All_about_input import option_input
+from h1b_exploring.exception_list import wrong_option_exception
 
-from class_collections_ranking import industry_level
-from popular_industry import popular_industry
-from customized_industry import customized_industry
+from h1b_exploring.class_collections_ranking import industry_level
+from h1b_exploring.popular_industry import popular_industry
+from h1b_exploring.customized_industry import customized_industry
 
 '''
 industry_exploring(merged_data)

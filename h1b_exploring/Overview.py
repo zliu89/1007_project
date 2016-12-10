@@ -5,11 +5,11 @@ Author: ShengLiu (sl5924)
 """
 
 import sys
-from h1b_draw import *
-from exception_list import *
-from All_about_input import option_input
+from h1b_exploring.h1b_draw import *
+from h1b_exploring.exception_list import *
+from h1b_exploring.All_about_input import option_input
 
-from h1b_data import h1b_data
+from h1b_exploring.h1b_data import h1b_data
 
 
 def overview(data):

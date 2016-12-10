@@ -1,19 +1,17 @@
 import sys
 import pandas as pd
 
-from h1b_data import *
+from h1b_exploring.h1b_data import *
 
-from Country_Level import national_level
-from State_Level import state_level
-from city_exploring import city_exploring
+from h1b_exploring.Country_Level import national_level
+from h1b_exploring.State_Level import state_level
+from h1b_exploring.city_exploring import city_exploring
 
-from exception_list import wrong_option_exception
-from Overview import option_input
+from h1b_exploring.exception_list import wrong_option_exception
+from h1b_exploring.Overview import option_input
 
 
-data = {}
-for year in range(2010,2017):
-	data[year]= pd.read_csv('/Users/yuweitu/Documents/Programming/DSGA1007_Project/Database/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
+
 
 def location (df):
 	df = h1b_data(df)
@@ -45,4 +43,3 @@ def location (df):
 		except wrong_option_exception:
 			print ("Invalid option, please reselect.")
 			
-location(data)

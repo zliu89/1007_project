@@ -12,8 +12,8 @@ ShengLiu Copyright 2016-2017
 
 
 import sys
-from h1b_data import *
-from h1b_draw import *
+from h1b_exploring.h1b_data import *
+from h1b_exploring.h1b_draw import *
 
 def state_level(states,h1b_data):
 	

@@ -49,7 +49,8 @@ def plot_line_chart(ls,y_label,title):
     year = ['2010','2011','2012','2013','2014','2015','2016']
     x = [dt.datetime.strptime(d,'%Y').date() for d in year]
     plt.figure()
-    plt.plot(x,ls)
+    plt.plot(x,ls,lw=1, ls="dashed", markeredgewidth = 0,color = 'Green',
+                 marker="o", markersize=8, markerfacecolor = 'Green')
     plt.grid(True)
     plt.xlabel('Year')
     plt.ylabel(y_label)

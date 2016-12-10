@@ -6,7 +6,8 @@ Author: Sheng Liu (sl5924)
 """
 import pandas as pd
 import sys
-from exception_list import *
+from time import sleep
+from h1b_exploring.exception_list import *
 
 def h1bdata_loading():
     """
@@ -18,13 +19,18 @@ def h1bdata_loading():
     a verified DataFrame
 
     """
-    print ("Welcome to Our H1b Analysis System! \n")
-    print ("loading data.......... \n")
+    string = 'Welcome to Our H1b Analysis System! \n'
+    delay_print(string)
+    print ("loading data......")
+    i = 0
+    l = 7
+    printProgress(i, l, prefix = 'Progress:', suffix = '', barLength = 50)
     data = {}
     for year in range(2010,2017):
         data[year]= pd.read_csv('DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
-    print ("dataset loaded successfully >>>")
-    print (">>>"),
+        i = year-2009
+        printProgress(i, l, prefix = 'Progress:', suffix = '', barLength = 50)
+    print ("\ndataset loaded successfully >>>")
     return data
 
 
@@ -32,7 +38,7 @@ def h1bdata_loading():
 def option_input():
 
     key = input("Please select one: ")
-    options = list('abcr')
+    options = list('abcdr')
     
     if key == 'quit':
         print ("You have quited the system.")
@@ -41,6 +47,32 @@ def option_input():
     if not(key in options):
         raise wrong_option_exception
     return key
+
+def delay_print(s):
+    for c in s:
+        sys.stdout.write( '%s' % c )
+        sys.stdout.flush()
+        sleep(0.15)
+def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, barLength = 100):
+    # Scource: http://stackoverflow.com/questions/3173320/text-progress-bar-in-the-console by @Vladimir
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        barLength   - Optional  : character length of bar (Int)
+    """
+    formatStr = "{0:." + str(decimals) + "f}"
+    percent = formatStr.format(100 * (iteration / float(total)))
+    filledLength = int(round(barLength * iteration / float(total)))
+    bar = '█' * filledLength + '-' * (barLength - filledLength)
+    sys.stdout.write('\r%s |%s| %s%s %s' % (prefix, bar, percent, '%', suffix)),
+    if iteration == total:
+        sys.stdout.write('\n')
+    sys.stdout.flush()
 
 def get_input(path):
     """

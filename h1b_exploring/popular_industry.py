@@ -4,9 +4,9 @@ Created on Nov 27, 2016
 @author: Yovela
 '''
 import sys
-from plot_popular_industry import confirm_answer_ploting
-from exception_list import wrong_option_exception, wrong_int_exception
-from All_about_input import option_input
+from h1b_exploring.plot_popular_industry import confirm_answer_ploting
+from h1b_exploring.exception_list import wrong_option_exception, wrong_int_exception
+from h1b_exploring.All_about_input import option_input
 
 '''
 popular_industry(industry_data)
