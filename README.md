@@ -46,7 +46,7 @@ This system will analyze H1B application from 3 dimensions:
 1. Pandas to access data.
 2. Numpy to perform statistical analysis.
 3. Matplotlib for graphics including line plots and bar plots.
-4. Basemap for graphics including geometric maps.
+4. cloropleth maps.
 
 ### Part 4: How to run the program
 
