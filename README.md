@@ -118,19 +118,19 @@ $ python main_new.py
 
 ### Part 5: A commmon walk-through example
 1. At the begining of the program, it will take seconds to load data and then you will see the Main Menu and options.
-![Main_Menu](readme_materials/1.png ?raw=true =600x)
+![Main_Menu](readme_materials/1.png?raw=true =600x)
 2. For example, if you would like to see the overview of the h1b data, you should type `a`, then the line chart will pop up:
-![Main_Menu](readme_materials/2.png ?raw=true =600x)
+![Main_Menu](readme_materials/2.png?raw=true =600x)
 3. Close the pop up window, you can type `r` to return to Main Menu. Type `b` then decide which level you are interested in. For instance, if you are interested in national level, you should type `a`, and choose the topic and year you want to see. Then you will find a **.svg** in 1007_project repo, open it with your web browser.
-![Main_Menu](readme_materials/3.png ?raw=true =600x)
+![Main_Menu](readme_materials/3.png?raw=true =600x)
 If you are interested in city level, type `c`, you will get a table
-![Main_Menu](readme_materials/4.png ?raw=true =600x)
+![Main_Menu](readme_materials/4.png?raw=true =600x)
 4. You can also find information about each company. For example, you can get information about the most popular companies. And find more detail in a **.pdf** in our repo, open it you will see
-![Main_Menu](readme_materials/5.png ?raw=true =600x)
+![Main_Menu](readme_materials/5.png?raw=true =600x)
 5. You can find more information about a specific company by choosing Customized Company Inquiry and enter the company name. sometimes you may forget the complete name of the company, just type in part of the name, the system will give you a list of company names that match. For example, type `goog`, you will get
-![Main_Menu](readme_materials/6.png ?raw=true =600x)
+![Main_Menu](readme_materials/6.png?raw=true =600x)
 6. If the company you want to see is in the list, type `yes`, you will see
-![Main_Menu](readme_materials/7.png ?raw=true =600x)
+![Main_Menu](readme_materials/7.png?raw=true =600x)
 7. type `quit` to exit the system.
 
 
