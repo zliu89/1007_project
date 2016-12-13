@@ -14,6 +14,7 @@ ShengLiu Copyright 2016-2017
 import sys
 from h1b_exploring.h1b_data import *
 from h1b_exploring.h1b_draw import *
+from h1b_exploring.exception_list import invalid_state_name
 
 def state_level(states,h1b_data):
 	
@@ -40,9 +41,10 @@ def state_level(states,h1b_data):
 			elif state_name == 'return':
 				break
 			else:
-				raise Exception
+				raise invalid_state_name
 		
-		
+		except invalid_state_name:
+			print ("Invalid state abbreviation, please input again")
 		except KeyboardInterrupt:
 			sys.exit(1)
 

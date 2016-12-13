@@ -92,7 +92,7 @@ def customized_industry(industry_data, merged_data):
                     raise invalid_industry_name
                 else:
                     user_industry = confirm_user_industry(user_industry_list)
-                    user_input = input(user_industry+ ": is it the industry you interested in?\n")
+                    user_input = input(user_industry+ ": is it the industry you interested in? please yes or no\n")
                     if user_input == 'yes':
                         search_industry(user_industry, industry_data)
                         job_title(user_industry, merged_data)

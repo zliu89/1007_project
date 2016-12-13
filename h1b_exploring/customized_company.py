@@ -16,14 +16,6 @@ def identify_company_name(user_company, company_name_list):
         for i in range(len(company_name_list)):
             if user_company in company_name_list[i]:
                 user_company_list.append(company_name_list[i])
-                
-        if len(user_company_list)<=20 and len(user_company_list) >0:
-            for user_company in user_company_list:
-                print(user_company)
-        elif len(user_company_list)>20:
-            print("can't accurately locate your interested company, please try to enter the full name")
-        elif len(user_company_list) == 0:
-            print("can't find your interested company, please re-enter a name")
         
         return user_company_list
     
@@ -47,20 +39,55 @@ def customized_company(company_data):
         try:
             print ("================================ H1b Visa Approve Rate Exploring ================================")
             print ("")
-            user_input = input ("                      Please Input Your Interested Company Name                          ")
+            print ("                          Please Input Your Interested Company Name                              ")
+            print ("                    You may input return to go back to previous dictionary                       ")
             print ("")
             print ("=================================================================================================")
+            user_input = input("Please input here:")
+            
+            if user_input == "quit":
+                sys.exit(1)
+            if user_input == 'return':
+                break
+            
+            # matching user's inputting name with company name list
             user_input = user_input.upper()
             user_company_list = identify_company_name(user_input, company_name_list)
-            user_answer = input("if there are companies you interested in, please enter yes; otherwise, enter no")
             
-            if user_answer == 'yes':
-                search_company(company_data, user_company_list)
-            else:
-                raise invalid_company_name
+            
+            # confirm user's interested company                
+            try:
+                
+                if len(user_company_list)<=20 and len(user_company_list) >0:
+                    for user_company in user_company_list:
+                        print(user_company)
+                elif len(user_company_list)>20:
+                    print("can't accurately locate your interested company, please try to enter the full name\n")
+                    raise invalid_company_name
+                elif len(user_company_list) == 0:
+                    print("can't find your interested company, please re-enter a name\n")
+                    raise invalid_company_name
+                
+                
+            # return statistical results
+                user_answer = input("if there are companies you interested in, please enter yes; otherwise, enter no\n")
+            
+                if user_answer == 'yes':
+                     search_company(company_data, user_company_list)
+                else:
+                    raise invalid_company_name
+            
+            except invalid_company_name:
+                pass
+            except KeyboardInterrupt:
+                sys.exit(1)
+            
+
             
         except invalid_company_name:
             print ("Invalid company name, please input again")
+        except KeyboardInterrupt:
+            sys.exit(1)
 
    
     
