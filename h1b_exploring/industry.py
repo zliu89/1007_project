@@ -15,7 +15,7 @@ industry_exploring(merged_data)
 '''
 def industry_exploring(data):
     
-    
+    print("loading data....")
     industry_data = industry_level(data)
     
     Flag = True
@@ -43,11 +43,3 @@ def industry_exploring(data):
         except wrong_option_exception:
             print ("Invalid option, please reselect.")
             
-            
-            
-if __name__ == '__main__':
-    data = {}
-    for year in range(2010,2017):
-        data[year]= pd.read_csv('/Users/yuweitu/Documents/Programming/DSGA1007_Project/DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
-    merged_data = pd.concat([data[year] for year in range(2010,2017)], ignore_index= True)
-    industry_exploring(merged_data)

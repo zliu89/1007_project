@@ -69,10 +69,4 @@ def national_level (h1b_data):
 		except wrong_option_exception:
 			print ("Invalid option, please reselect an indicator you interested in.")
 
-if __name__ == '__main__':
-	data = {}
-	for year in range(2010,2017):
-		data[year]= pd.read_csv('DataBase/H-1B_FY'+str(year)+'_clean.csv',encoding = 'iso-8859-1')
-	data = h1b_data(data)
-	national_level(data)
 

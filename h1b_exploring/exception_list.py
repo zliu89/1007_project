@@ -11,6 +11,10 @@ User Self-defined Exception
 class wrong_option_exception(NameError):
     pass
 
+# Exception when inputing wrong state abbreviation
+class invalid_state_name(Exception):
+    pass
+
 # Exception when inputing unlisted company
 class invalid_company_name(Exception):
     pass

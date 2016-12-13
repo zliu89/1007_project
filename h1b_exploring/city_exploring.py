@@ -12,7 +12,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 
 def city_exploring(data):
-    
+    print("loading data....")
     merged_data = pd.concat([data[year] for year in range(2010,2017)], ignore_index= True)
     city_data = city_level(merged_data)
     
@@ -28,14 +28,14 @@ def city_exploring(data):
         plt.figure(figsize = (30,20))
         city_rank_by_application_pool = city_rank["approved_case"].sort_values(inplace=False, ascending=True)
         ax1 = city_rank_by_application_pool.plot(kind = "barh", alpha = 0.7, color = ["skyblue", "pink","green"], 
-                                       figsize = (20,10))
+                                       figsize = (20,15))
         ax1.set_title("Top 20 Largest Application Pool Cities",fontsize = "large")
         pdf.savefig()
         plt.close()
         
         plt.figure(figsize = (30,20))
         ax2 = city_rank[["approved_case", "unapproved_case"]].plot(kind = "bar", alpha = 0.7, stacked = True,color = ["skyblue", "pink"], 
-                                       figsize = (20,10), title = "Approval Rate for Top 20 Largest Application Pool Cities")
+                                       figsize = (20,15), title = "Approval Rate for Top 20 Largest Application Pool Cities")
         ax3 = city_rank["approval_rate"].plot(kind = "line", secondary_y=True,  style = 'ko--' )
         ax2.set_xticklabels(city_rank.index,rotation=45)
         ax3.set_xticklabels(city_rank.index,rotation=45)
@@ -44,9 +44,8 @@ def city_exploring(data):
         
 
         plt.figure(figsize = (30,20))
-        ax4 = city_rank["average_wage"].plot(kind = "bar", ylim = [40000,120000], color = "skyblue",figsize = (20,10),
+        ax4 = city_rank["average_wage"].plot(kind = "barh", ylim = [40000,120000], color = "skyblue",figsize = (20,15),
                                              title = "Average Wage for Top 20 Largest Application Pool Cities" )
-        ax4.set_xticklabels(city_rank.index,rotation=45)
         pdf.savefig()
         plt.close()
         

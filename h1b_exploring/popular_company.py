@@ -28,24 +28,26 @@ def popular_company(data):
         plt.figure(figsize = (30,20))
         company_rank_by_application_pool = company_rank["approved_case"].sort_values(inplace=False, ascending=True)
         ax1 = company_rank_by_application_pool.plot(kind = "barh", alpha = 0.7, color = ["skyblue", "pink","green"], 
-                                       figsize = (30,20))
+                                       figsize = (20,15))
         ax1.set_title("Top 10 Largest Application Pool Companies",fontsize = "large")
+        plt.subplots_adjust(bottom = 0.1, left = 0.3)
         pdf.savefig()
         plt.close()
         
         plt.figure(figsize = (30,20))
         ax2 = company_rank[["approved_case", "unapproved_case"]].plot(kind = "bar", alpha = 0.7, stacked = True,color = ["skyblue", "pink"], 
-                                       figsize = (30,20), title = "Approval Rate for Top 10 Largest Application Pool Companies")
+                                       figsize = (20,15), title = "Approval Rate for Top 10 Largest Application Pool Companies")
         ax3 = company_rank["approval_rate"].plot(kind = "line", secondary_y=True,  style = 'ko--' )
         ax2.set_xticklabels(company_rank.index,rotation=45)
         ax3.set_xticklabels(company_rank.index,rotation=45)
+        plt.subplots_adjust(bottom = 0.3, left = 0.1)
         pdf.savefig()
         plt.close()
         
         plt.figure(figsize = (30,20))
-        ax4 = company_rank["average_wage"].plot(kind = "barh", ylim = [40000,120000], color = "skyblue",figsize = (30,20),
+        ax4 = company_rank["average_wage"].plot(kind = "barh", ylim = [40000,120000], color = "skyblue",figsize = (20,15),
                                              title = "Average Wage for Top 10 Largest Application Pool Companies" )
-        ax4.set_xticklabels(company_rank.index,rotation=45)
+        plt.subplots_adjust(bottom = 0.1, left = 0.3)
         pdf.savefig()
         plt.close()
         
