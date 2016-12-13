@@ -4,7 +4,7 @@
   - Yuwei Tu (yt1209)
   - Sheng Liu (sl5924)
   - Zhaopeng Liu (zl1732)
-## Table of Contents
+
 
 ### Project Content
 This project is aiming to provide information about H1B visa from historical data from 2010 to 2016. 
@@ -20,7 +20,7 @@ $ cd 1007_project
 2. download data from dropbox, click [here](https://www.dropbox.com/sh/o8q9m69583wbp7v/AADz7qg75WlrhbA-p4h50OpSa?dl=0)
 to download.
 
-4. move data folder **DataBase** into our repo 1007_project (For testing, please download **DataBase_Sample into our repo)
+4. move data folder **DataBase** into our repo 1007_project (For testing, please download **DataBase_Sample** into our repo)
 
 5. Make sure that 'chorogrid', 'DataBase', 'h1b_exploring' and main_new.py are in the repo.
 
