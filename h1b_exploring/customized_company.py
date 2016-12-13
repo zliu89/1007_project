@@ -40,7 +40,7 @@ def customized_company(company_data):
             print ("================================ H1b Visa Approve Rate Exploring ================================")
             print ("")
             print ("                          Please Input Your Interested Company Name                              ")
-            print ("                    You may input return to go back to previous dictionary                       ")
+            print ("                    You may input RETURN to go back to previous dictionary                       ")
             print ("")
             print ("=================================================================================================")
             user_input = input("Please input here:")
